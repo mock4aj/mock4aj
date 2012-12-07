@@ -1,0 +1,37 @@
+                            ----------
+                            Tutorial
+                            ------------------
+                            F.-A. Bourbonnais
+                            ------------------
+                            
+Tutorial                            
+                            
+    <<Note:>> the source code for this example is available at FIXME(example-house).
+                            
+* Test an execution primitive
+
+    You want to create an aspect to automatically activate the energy saving mode when the owner
+    is leaving the house. 
+    
+    In order to do that, you create an aspect <<<HouseAutomation>>> that
+    automatically call <<<theBuilding.turnOnEnergySaving()>>> when just after the execution of
+    the method <<<leave>>> on <<<Building>>>:
+    
++-----------------------------------------------------------------------------------+
+public aspect HouseAutomation {
+    
+    pointcut leavingABuilding() : 
+        execution(void Building.leave());
+        
+    after() : leavingABuilding() {
+        Building building = (Building) thisJoinPoint.getThis();
+        building.turnOnEnergySaving();
+    }
+        
+}
++-----------------------------------------------------------------------------------+
+    
+    To unit test this behavior, you have to check two main things
+    
+    
+    

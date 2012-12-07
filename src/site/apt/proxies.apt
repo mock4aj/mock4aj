@@ -1,0 +1,125 @@
+                            -------------------------------
+                                      Weaved Proxies
+                            -------------------------------
+                            
+
+Intent
+
+    Mock4AspectJ provides a generic technique that works with almost any mocking framework
+    without needing any special binding. 
+    
+    Proxies will produce weaved proxies of a mock. So, methods in the mock will be matched
+    by pointcuts in the aspect under test. Aspect's advice will also be able to call them
+    as any objects.
+    
+    However, if a {{{./bindings.html}binding exists}} for a mocking framework, it is 
+    recommended to use it to produce mocks already weaved. 
+
+
+How does it works?
+
+    To achieve that, Mock4AspecTJ will dynamically produce a special object, called proxy, 
+    that will <<forward calls to the original object>> (typically a mock). But during the
+    creation of the proxy, Mock4AspectJ will also <<weaved>> all registered aspects into it. 
+    
+    So, the resulting proxy will behave exactly as the proxied object <<plus the effects of 
+    all aspects weaved>>.
+
+    Since the goal is to unit test aspects in isolation, we typically create proxies of 
+    virtual mocks created by a {{{./glossary.html#virtual_mocking_framework}virtual mocking
+    framework}}. 
+    
+    Once a proxy to a mock is created, the mock is untouched and can be use as usual. However, 
+    the proxy is weaved so calling methods on it will trigger the aspect. The proxy can 
+    <<be used to pilot the test>>. Since, the object forward calls (if not overridden by an
+    around adive) the mock will record calls as usual.
+    
+    Read {{{./testing-aop-mocks.html}Testing AOP with mocks}} to understand how to test 
+    aspects with mocks.
+
+
+How to use it?
+
+* Given an aspect 
+    
++-----------------------------------------------------------------------------------+
+public aspect AspectUnderTest {
+
+    pointcut pc() : execution(* methodX(..)) && within(Target+);
+    
+    after() : pc() {
+        Target thisTarget = (Target) thisJointPoint.getThis();
+        thisTarget.execByAspect();
+    }
+
+}
++-----------------------------------------------------------------------------------+
+
+* Test it
+
+    [[1]] Create a mock
+    
++-----------------------------------------------------------------------------------+
+Target mockOfTarget = mockWithSomeMockingFramework(Target.class);
++-----------------------------------------------------------------------------------+
+    
+    [[2]] Create a weaved proxy and select which aspect to weave
+    
++-----------------------------------------------------------------------------------+
+Target proxyOfTheMock = createWeavedProxy(mockOfTarget, AspectUnderTest.class);
++-----------------------------------------------------------------------------------+
+    
+    [[3]] Call a method on the proxy (trigger the aspect)
+    
++-----------------------------------------------------------------------------------+
+proxyofTheMock.methodX();
++-----------------------------------------------------------------------------------+
+    
+    [[4]] Verify the expected behavior 
+    
++-----------------------------------------------------------------------------------+
+verifyCallWithMockingFramework( mockOfTarget.execByAspect() );
++-----------------------------------------------------------------------------------+
+
+
+Common mistakes and questions
+
+* Calling methods on the mock instead of the proxy
+
+    The mock is created by the virtual mocking framework. So the mock is not weaved with
+    any aspect. Since the mock is not weaved, no pointcut will match. 
+
+
+* Doing verifications of the proxy instead of the mock    
+    
+    The proxy forwards calls to the mock but it is not a mock. So it doesn't have all the 
+    magic inserted by the mocking framework that allows verifications.
+    
+    
+* The mock is weaved before creating the proxy
+
+    You should not start the test with the AspectJ's LTW (Loadtime weaving) activated.
+    
+
+Explanations and technical details
+
+* It's complicated, why not doing everything directly on the mock?
+
+    Because the mocks is created by a {{{./glossary.html#virtual_mocking_framework}virtual mocking
+    framework}} that doesn't known how to weave aspects.
+    
+    Since the mocks is not weaved, calling methods on it will not match any aspect's pointcut.
+    
+
+* Why not weaving the mock after his creation?
+
+    Simply because it is not possible to alter the Java Bytecode of an already loaded class. In 
+    fact, the weaving process alter the Bytecode of a class but that operation must occurs
+    before loading it. 
+
+    The virtual mock in fact is a dynamically generated class that is mimic the mocked class. 
+    With most frameworks, after his creation, the mock class is loaded by the Java Classloader
+    before returning it. So once you have an instance of the mock, it's too late to weave it. 
+    
+    It's is why we offer some {{{./bindings.html}binding exists}} for specific frameworks. Those
+    bindings use the framework's API to weave the mock before loading it. 

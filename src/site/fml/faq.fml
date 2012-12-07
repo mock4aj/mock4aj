@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faqs xmlns="http://maven.apache.org/FML/1.0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/FML/1.0.1 http://maven.apache.org/xsd/fml-1.0.1.xsd"
+    title="Frequently Asked Questions" toplink="false">
+
+    <part id="general">
+        <title>General</title>
+
+        <faq id="weaving-real-objects">
+            <question>
+                FIXME: Can I use real objects to proxy instead of mock.
+            </question>
+            <answer>
+                FIXME: Problem is CTW.
+                <!--
+                    <p>some markup goes here</p>
+
+                    <source>some source code</source>
+
+                    <p>some markup goes here</p>
+                -->
+            </answer>
+        </faq>
+
+        <faq id="deactivate-ctw">
+            <question>
+                FIXME: Do I have to deactivate LTW ?
+            </question>
+            <answer>
+                FIXME:Test it.
+            </answer>
+        </faq>
+        
+        
+        <faq id="cflow">
+            <question>
+                FIXME: Does it supports cflow primitives ?
+            </question>
+            <answer>
+            </answer>
+        </faq>
+
+    </part>
+
+</faqs>

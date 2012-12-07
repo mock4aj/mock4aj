@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Mock4AJ">
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-stylus-skin</artifactId>
+        <version>1.3</version>
+    </skin>
+
+    <version position="right" />
+
+    <bannerLeft>
+        <name>Mock4AJ</name>
+        <src>images/mock4aspectj-banner.png</src>
+        <alt>Mock4AJ: Bringing mocks to aspects</alt>
+        <href>http://mock4aj.rubico.info/</href>
+    </bannerLeft>
+
+    <body>
+        <links>
+        </links>
+
+        <menu name="Overview">
+            <item name="Main site" href="http://mock4aj.rubico.info/" />
+            <item name="Supported frameworks" href="bindings.html" />
+            <item name="Glossary" href="glossary.html" />
+            <item name="FAQ" href="faq.html" />
+        </menu>
+
+        <menu name="User Documentation">
+            <item name="Quickstart" href="quickstart.html" />
+            <item name="Tutorial" href="tutorial.html" />
+        </menu>
+        
+        <menu name="Advanced Documentation">
+            <item name="Testing aspects with Mocks" href="testing-aop-mocks.html" />
+            <item name="Using weaved proxies" href="proxies.html" />
+        </menu>
+
+        <!-- <menu ref="modules" /> -->
+
+        <!-- <menu ref="reports" /> -->
+
+
+    </body>
+</project>

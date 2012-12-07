@@ -1,0 +1,201 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>info.rubico.mock4aj</groupId>
+    <artifactId>mock4aj</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>mock4aj</name>
+    <description>
+        Mock4Aj is a framework to allow testing aspects in isolation using 
+        virtual mocks objects.
+         
+        It brings the OO mocking technique to the AO by offering runtime dynamic weaving  
+        controllable within the test and dynamic generation of honeypots for pointcuts using a 
+        simple syntax.
+        
+        It is designed to be easily integrated with existing virtual mocking frameworks like
+        Mockito or JMock. The goal is to facilitate the weaving of mocks objects not to 
+        propose another mocking solution.
+        
+        It's 100% Java compatible without requiring any Java Agent or command line intervention. 
+        Everything is done within the test using the Java API.
+    </description>
+    <url>mock4aj.googlecode.com</url>
+    <developers>
+        <developer>
+            <id>fbourbonnais</id>
+            <name>F.-A. Bourbonnais</name>
+            <organization>F.-A. Bourbonnais</organization>
+            <organizationUrl>http://www.rubico.info/</organizationUrl>
+            <email>fab.dev @AT. rubico.info</email>
+            <timezone>-5</timezone>
+        </developer>
+    </developers>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <mainproject.basedir>${project.basedir}</mainproject.basedir> <!-- Overwritten by modules -->
+        <checkstyle.file>${mainproject.basedir}/src/main/config/checkstyle.xml</checkstyle.file>
+    </properties>
+
+    <modules>
+        <module>mock4aj-core</module>
+        
+        <module>mock4aj-acceptancetests</module>
+
+        <module>mock4aj-examples</module>
+    </modules>
+
+    <build>
+        <plugins>
+
+            <!-- Target Java SE 1.5 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+
+            <!-- Checkstyle.
+
+                Note: We use the variable project_loc in the checkstyle's
+                configuration file to be compatible with Eclipse CS plugin.
+                Eclipse will understand that variable but not Maven. So we
+                substitute the variable when we are running from Maven. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <configLocation>${checkstyle.file}</configLocation>
+                    <propertyExpansion>main_project_loc=${mainproject.basedir}</propertyExpansion>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <enableRulesSummary>false</enableRulesSummary>
+                    <failsOnError>false</failsOnError>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>checkstyle-report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>checkstyle</goal>
+                        </goals>
+                        <configuration>
+                            <linkXRef>false</linkXRef>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>checkstyle-check</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <logViolationsToConsole>true</logViolationsToConsole>
+                            <failOnViolation>true</failOnViolation>
+                            <maxAllowedViolations>8</maxAllowedViolations>
+                            <violationSeverity>warning</violationSeverity>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- PMD -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <targetJdk>1.5</targetJdk>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>pmd</goal>
+                        </goals>
+                        <configuration>
+                            <linkXRef>false</linkXRef>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Site -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.0-beta-3</version>
+                <configuration>
+                    <reportPlugins>
+                        <!--
+                            <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-project-info-reports-plugin</artifactId>
+                            <version>2.4</version>
+                            <configuration>
+                            <dependencyDetailsEnabled>true</dependencyDetailsEnabled>
+                            <dependencyLocationsEnabled>true</dependencyLocationsEnabled>
+                            </configuration>
+                            <reports>
+                            </reports>
+                            </plugin>
+                        -->
+                        <!--
+                            <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <version>2.6.1</version>
+                            </plugin>
+                        -->
+                    </reportPlugins>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse
+                    m2e settings only. It has no influence on the Maven build
+                    itself.
+
+                    We do that because m2e in Eclipse will complain because
+                    it
+                    doesn't know how to deal with the AspectJ Plugin.
+                -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.codehaus.mojo</groupId>
+                                        <artifactId>aspectj-maven-plugin</artifactId>
+                                        <versionRange>[1.0,)</versionRange>
+                                        <goals>
+                                            <goal>test-compile</goal>
+                                            <goal>compile</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>

@@ -1,0 +1,19 @@
+                            -------------------------------
+                              Supported Mocking Frameworks
+                            -------------------------------
+
+    Mock4AspectJ allow easy integration with {{{./bindings.html}some mocking frameworks}}. 
+    This allow mocks to be directly weaved without any {{{./proxies.html}proxy}}.
+    
+    If your current mocking framework is not supported, you can still use Mock4AspectJ by
+    creating {{{./proxies.html}weaved proxies}}.
+
+Supported Frameworks
+
+*------------------------------------------*------------------------------*
+||     Mocking Framework                  ||            Binding          ||
+*------------------------------------------*------------------------------*
+|  {{{http://mockito.org/}Mockito}}        |  {{{./proxies.html}Proxy}}   |
+*------------------------------------------*------------------------------*
+|  Other                                   |  {{{./proxies.html}Proxy}}   |
+*------------------------------------------*------------------------------*
