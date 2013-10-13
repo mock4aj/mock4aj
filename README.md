@@ -19,12 +19,79 @@ Mock4Aj? is not a virtual mocking framework and doesn't create mocks. It allows 
 
 With Mock4Aj? you can:
 
-Select which aspect to weave into a Mock (test in isolation)
-Weave into generated objects like Mocks
-Simulate calls to a weaved object
-Simulate a call from a fictitious context to test the aspect against it (ex.: call from a class named X implementing Y)
+- Select which aspect to weave into a Mock (test in isolation)
+- Weave into generated objects like Mocks
+- Simulate calls to a weaved object
+- Simulate a call from a fictitious context to test the aspect against it (ex.: call from a class named X implementing Y)
+
 All that can be done
 
-with a simple syntax
-without breaking the IDE support (auto-completion, refactoring, type checking, ...).
-in pure Java (no agent, no special compiler, ...)
+- with a simple syntax
+- without breaking the IDE support (auto-completion, refactoring, type checking, ...).
+- in pure Java (no agent, no special compiler, ...)
+
+---
+
+# How to use it
+
+## Weave my Mock
+
+1. Create a mock with your favorite Mocking Framework (we use Mockito here)
+
+  ```
+  Building houseMock = mock(Building.class);
+  ```
+
+2. Weave your mock with the Aspect to be tested (in isolation)
+
+  ```
+  Building houseWeavedMock = createWeavedProxy(houseMock, HouseAutomationAspect.class);
+  ```
+
+3. Do your test as usual....
+
+  When: the method House.leave() is called on the mock
+      
+  ```java
+  houseWeavedMock.leave();
+  ```
+
+  Then: the aspect should have turn on the energy saving (it should call turnOnEnergySaving when applied)
+  
+  ```java
+  verify(houseMock).turnOnEnergySaving();
+  ```
+
+## Simulate a call
+Sometimes, a pointcut considers who is calling the targeted method. So you want to be able to simulate a call coming from a given origin to be able to verify if the pointcut matches only when it should.
+
+1. Given a call context: simulate a call coming from TheOrigin, a class implementing User
+
+  ```java
+  CallContext context = callContext();
+  context.withAspect(OnlyTurnOnFromOwner.class);
+  context.from(TheOrigin.class);
+  ```
+
+2. When: simulate a call to House.leave() on my Mock of House (target)
+
+  ```java
+  call(houseMock, context).leave();
+  ```
+
+3. Then: should not turn on the energy saving
+  ```
+  ...
+  ```
+
+## Simulate a call from a fictive class
+You can also simulate a call coming from a fictive class to see what would match if this class exist.
+
+  ```java
+  context.withAspect(OnlyTurnOnFromOwner.class);
+  context.from(fakeSourceClass("NonExistingName").implementing(User.class));
+  
+  call(houseMock, context).leave();
+  
+  ...
+  ```
