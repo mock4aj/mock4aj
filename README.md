@@ -95,3 +95,9 @@ You can also simulate a call coming from a fictive class to see what would match
   
   ...
   ```
+
+# More usage...
+
+See all acceptance tests packaged with the framework:
+
+https://github.com/mock4aj/mock4aj/tree/master/mock4aj-acceptancetests/src/test/java/info/rubico/mock4aj/acceptance
