@@ -62,7 +62,7 @@ All that can be done
 ## Simulate a call
 Sometimes, a pointcut considers who is calling the targeted method. So you want to be able to simulate a call coming from a given origin to be able to verify if the pointcut matches only when it should.
 
-1. Given a call context: simulate a call coming from TheOrigin, a class implementing User
+1. Given a call context: simulate a call coming from TheOrigin
 
   ```java
   CallContext context = callContext();
