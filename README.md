@@ -96,7 +96,9 @@ You can also simulate a call coming from a fictive class to see what would match
   ...
   ```
 
-# More usage...
+# Can do more ?
+
+Yes...
 
 See all acceptance tests packaged with the framework:
 
