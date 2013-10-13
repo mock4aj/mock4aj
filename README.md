@@ -8,13 +8,13 @@ Testing aspects (AOP) with Mock Objects
 
 ---
 
-Mock4Aj? is an easy to use framework to help developers to test their aspects (with AspectJ and Java for now) using Mock Objects.
+Mock4Aj is an easy to use framework to help developers to test their aspects (with AspectJ and Java for now) using Mock Objects.
 
 It offers an expressive syntax to verify pointcuts matching by testing the effects of an isolated aspect on virtual classes (Mocks) within a configurable context.
 
 Mock4Aj? is not a virtual mocking framework and doesn't create mocks. It allows the weaving of virtual mocks and the simulation of execution contexts to unit test aspects (pointcuts and advices).
 
-With Mock4Aj? you can:
+With Mock4Aj you can:
 
 - Select which aspect to weave into a Mock (test in isolation)
 - Weave into generated objects like Mocks
