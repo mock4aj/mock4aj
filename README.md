@@ -1,7 +1,6 @@
 ![Mock4Aj](https://raw2.github.com/mock4aj/mock4aj/master/logo/mock4aj_lt.png)
 
-mock4aj
-=======
+#mock4aj
 
 Testing aspects (AOP) with Mock Objects
   
@@ -29,7 +28,7 @@ All that can be done
 
 ---
 
-# Examples
+## Examples
 
 ```java
 @Aspect
@@ -70,6 +69,7 @@ public class LeavingAspect {
 
 @Test
 public void shouldTurnEnergySavingOnLeavingCall() {
+    // Some fictive call origin
     CallContext context = callContext()
     context.withAspect(LeavingAspect.class);
     context.from(fakeSourceClass("NonExistingName").implementing(SomeInterface.class));
@@ -81,9 +81,9 @@ public void shouldTurnEnergySavingOnLeavingCall() {
 ``` 
 
 
-# How to use it
+## How to use it
 
-## Weave my Mock
+### Weave my Mock
 
 1. Create a mock with your favorite Mocking Framework (we use Mockito here)
 
@@ -111,7 +111,7 @@ public void shouldTurnEnergySavingOnLeavingCall() {
   verify(houseMock).turnOnEnergySaving();
   ```
 
-## Simulate a call
+### Simulate a call
 Sometimes, a pointcut considers who is calling the targeted method. So you want to be able to simulate a call coming from a given origin to be able to verify if the pointcut matches only when it should.
 
 1. Given a call context: simulate a call coming from TheOrigin
@@ -133,7 +133,7 @@ Sometimes, a pointcut considers who is calling the targeted method. So you want 
   ...
   ```
 
-## Simulate a call from a fictive class
+### Simulate a call from a fictive class
 You can also simulate a call coming from a fictive class to see what would match if this class exist.
 
   ```java
@@ -145,7 +145,7 @@ You can also simulate a call coming from a fictive class to see what would match
   ...
   ```
 
-# Can do more ?
+## Can do more ?
 
 Yes...
 
