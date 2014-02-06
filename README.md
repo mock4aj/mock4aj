@@ -1,4 +1,4 @@
-![Mock4Aj](https://github.com/mock4aj/mock4aj/blob/master/logo/mock4aj_lt.png)
+![Mock4Aj](https://raw2.github.com/mock4aj/mock4aj/master/logo/mock4aj_lt.png)
 
 mock4aj
 =======
