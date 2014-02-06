@@ -138,9 +138,10 @@ You can also simulate a call coming from a fictive class to see what would match
 
   ```java
   context.withAspect(OnlyTurnOnFromOwner.class);
-  context.from(fakeSourceClass("a.package.NonExistingName")
-  		  .implementing(User.class)
-  		  .extending(Base.class) );
+  context.from(
+  	fakeSourceClass("a.package.NonExistingName")
+  	.implementing(User.class)
+  	.extending(Base.class) );
   
   call(houseMock, context).leave();
   
