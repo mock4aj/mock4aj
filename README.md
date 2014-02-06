@@ -29,6 +29,58 @@ All that can be done
 
 ---
 
+# Examples
+
+```java
+@Aspect
+public class HouseAutomationAspect {
+
+	@Pointcut("execution(void Building.leave())")
+	protected void leavingABuilding() {}
+
+	@After("leavingABuilding()")
+	public void saveEnergyOnLeaving(JoinPoint joinPoint) {
+		Building building = (Building) joinPoint.getThis();
+		building.turnOnEnergySaving();
+	}
+
+}
+
+@Test
+public void shouldTurnEnergySavingOnAfterLeaving() {
+    Building houseMock = mock(Building.class); // Mock (using Mockito)
+    Building houseWeavedMock = createWeavedProxy(houseMock, HouseAutomationAspect.class); // Weave
+
+    houseWeavedMock.leave(); // Execution should be matched by the aspect
+
+    verify(houseMock).turnOnEnergySavingByAspect(); // Expected effect of the Aspect
+}
+```
+
+```java
+@Aspect
+public class LeavingAspect {
+
+	@Pointcut("call(void *.leave())")
+	protected void leavingAnything() {}
+
+  ...
+
+}
+
+@Test
+public void shouldTurnEnergySavingOnLeavingCall() {
+    CallContext context = callContext()
+    context.withAspect(LeavingAspect.class);
+    context.from(fakeSourceClass("NonExistingName").implementing(SomeInterface.class));
+  
+    call(targetMock, context).leave();
+    
+    ...
+}
+``` 
+
+
 # How to use it
 
 ## Weave my Mock
